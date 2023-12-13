@@ -125,8 +125,8 @@ module.exports = {
           'code has been loaded')
       })
       .url('http://127.0.0.1:8080') // refresh without loading the code sample
-      .waitForElementPresent('[data-id="dropdown-item-default_workspace"]', 15000) // make sure workspaces list is loaded.
-      .waitForElementNotPresent('[data-id="dropdown-item-code-sample"]') // code-sample should not be kept.
+      .waitForElementPresent('a[data-id="dropdown-item-default_workspace"]', 15000) // make sure workspaces list is loaded.
+      .waitForElementNotPresent('a[data-id="dropdown-item-code-sample"]') // code-sample should not be kept.
   },
 
   'Should load the code from language & code params #group1': function (browser: NightwatchBrowser) {
