@@ -59,6 +59,7 @@ export const RemixUiTerminal = (props: RemixUiTerminalProps) => {
   })
 
   const [clearConsole, setClearConsole] = useState(false)
+  const [isVM, setIsVM] = useState(false)
   const [paste, setPaste] = useState(false)
   const [storage, setStorage] = useState<any>(null)
   const [autoCompletState, setAutoCompleteState] = useState({
@@ -98,6 +99,10 @@ export const RemixUiTerminal = (props: RemixUiTerminalProps) => {
   }
 
   useEffect(() => {
+    props.plugin.on('network', 'providerChanged', (provider) => {
+      setIsVM(provider.startsWith('vm-'))
+    })
+
     props.onReady({
       logHtml: (html) => {
         scriptRunnerDispatch({
@@ -604,7 +609,13 @@ export const RemixUiTerminal = (props: RemixUiTerminalProps) => {
           </CustomTooltip>
           <div className="h-80 mx-3 align-items-center remix_ui_terminal_listenOnNetwork custom-control custom-checkbox">
             <CustomTooltip placement="top" tooltipId="terminalClear" tooltipClasses="text-nowrap" tooltipText={intl.formatMessage({ id: 'terminal.listenTitle' })}>
-              <input className="custom-control-input" id="listenNetworkCheck" onChange={listenOnNetwork} type="checkbox" />
+              <input
+                className="custom-control-input"
+                id="listenNetworkCheck"
+                onChange={listenOnNetwork}
+                type="checkbox"
+                disabled={isVM}
+              />
             </CustomTooltip>
             <CustomTooltip placement="top" tooltipId="terminalClear" tooltipClasses="text-nowrap" tooltipText={intl.formatMessage({ id: 'terminal.listenTitle' })}>
               <label
