@@ -607,8 +607,13 @@ export const RemixUiTerminal = (props: RemixUiTerminalProps) => {
           <CustomTooltip placement="top" tooltipId="terminalClear" tooltipClasses="text-nowrap" tooltipText={<FormattedMessage id="terminal.pendingTransactions" />}>
             <div className="mx-2">0</div>
           </CustomTooltip>
-          <div className="h-80 mx-3 align-items-center remix_ui_terminal_listenOnNetwork custom-control custom-checkbox">
-            <CustomTooltip placement="top" tooltipId="terminalClear" tooltipClasses="text-nowrap" tooltipText={intl.formatMessage({ id: 'terminal.listenTitle' })}>
+          <CustomTooltip
+            placement="top"
+            tooltipId="terminalClear"
+            tooltipClasses="text-nowrap"
+            tooltipText={intl.formatMessage({ id: isVM ? 'terminal.listenVM' : 'terminal.listenTitle'})}
+          >
+            <div className="h-80 mx-3 align-items-center remix_ui_terminal_listenOnNetwork custom-control custom-checkbox">
               <input
                 className="custom-control-input"
                 id="listenNetworkCheck"
@@ -616,8 +621,6 @@ export const RemixUiTerminal = (props: RemixUiTerminalProps) => {
                 type="checkbox"
                 disabled={isVM}
               />
-            </CustomTooltip>
-            <CustomTooltip placement="top" tooltipId="terminalClear" tooltipClasses="text-nowrap" tooltipText={intl.formatMessage({ id: 'terminal.listenTitle' })}>
               <label
                 className="form-check-label custom-control-label text-nowrap"
                 style={{ paddingTop: '0.125rem' }}
@@ -626,8 +629,9 @@ export const RemixUiTerminal = (props: RemixUiTerminalProps) => {
               >
                 <FormattedMessage id="terminal.listen" />
               </label>
-            </CustomTooltip>
-          </div>
+            </div>
+          </CustomTooltip>
+
           <div className="remix_ui_terminal_search d-flex align-items-center h-100">
             <i className="remix_ui_terminal_searchIcon d-flex align-items-center justify-content-center fas fa-search bg-light" aria-hidden="true"></i>
             <input
