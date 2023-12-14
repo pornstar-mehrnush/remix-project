@@ -38,6 +38,10 @@ export class CircomPluginClient extends PluginClient {
       fileContent = await this.call('fileManager', 'readFile', path)
     }
     this.lastParsedFiles = await this.resolveDependencies(path, fileContent)
+    // for (const filePath in this.lastParsedFiles) {
+    //   console.log(filePath, this.lastParsedFiles[filePath])
+    // }
+
     const parsedOutput = parse(path, this.lastParsedFiles)
 
     try {
@@ -296,12 +300,11 @@ export class CircomPluginClient extends PluginClient {
         // extract all includes from the dependency content
         const dependencyIncludes = (dependencyContent.match(/include ['"].*['"]/g) || []).map((childInclude) => {
           const includeName = childInclude.replace(/include ['"]/g, '').replace(/['"]/g, '')
+          let absFilePath = pathModule.resolve(include.slice(0, include.lastIndexOf('/')), includeName)
 
-          if (!blackPath.includes(includeName)) {
+          absFilePath = include.startsWith('circomlib') ? absFilePath.substring(1) : absFilePath
+          if (!blackPath.includes(absFilePath)) {
             if(!includeName.startsWith('circomlib')) {
-              let absFilePath = pathModule.resolve(include.slice(0, include.lastIndexOf('/')), includeName)
-              absFilePath = include.startsWith('circomlib') ? absFilePath.substring(1) : absFilePath
-
               dependencyContent = dependencyContent.replace(`${includeName}`, `${absFilePath}`)
               return absFilePath
             }
